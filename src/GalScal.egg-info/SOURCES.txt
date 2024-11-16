@@ -1,0 +1,12 @@
+README.md
+setup.py
+src/GalScal.egg-info/PKG-INFO
+src/GalScal.egg-info/SOURCES.txt
+src/GalScal.egg-info/dependency_links.txt
+src/GalScal.egg-info/requires.txt
+src/GalScal.egg-info/top_level.txt
+src/galscal/__init__.py
+src/galscal/field.py
+src/galscal/signal.py
+tests/test_field.py
+tests/test_signal.py
