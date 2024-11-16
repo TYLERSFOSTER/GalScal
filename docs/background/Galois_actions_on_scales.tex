@@ -1,0 +1,480 @@
+\documentclass[letterpaper,11pt, reqno]{amsart}
+
+\usepackage{amsfonts, amsthm, amssymb, amsmath, stmaryrd}
+\usepackage{bbm}
+\usepackage{mathrsfs,array}
+\usepackage{eucal,fullpage,times,color,enumerate,accents,mathtools}
+\usepackage{url}
+\usepackage{scalerel,stackengine}
+\usepackage{dotlessj}
+\usepackage{cancel}
+\usepackage{tikz}
+\usepackage[all]{xy}
+\usepackage{enumitem}
+\usepackage{soul}
+\usepackage{xcolor}
+\usepackage{etoolbox}
+\usepackage{pifont}
+\usetikzlibrary{fadings}
+\usetikzlibrary{calc}
+\tikzfading[name=fade out,
+  inner color=transparent!0, outer color=transparent!100]
+\tikzfading[name=fade right,
+  left color=transparent!0, right color=transparent!100]
+\tikzfading[name=fade left,
+  right color=transparent!0, left color=transparent!100]
+\tikzfading[name=fade mid,
+  left color = transparent!100, right color = transparent!100, middle color=transparent!0]
+\usepackage{ifthen}
+\tikzset{
+  laser beam action/.style={
+    line width=\pgflinewidth+1.4pt,draw opacity=.095,draw=#1,
+  },
+  laser beam recurs/.code 2 args={%
+    \pgfmathtruncatemacro{\level}{#1-1}%
+    \ifthenelse{\equal{\level}{0}}%
+    {\tikzset{preaction={laser beam action=#2}}}%
+    {\tikzset{preaction={laser beam action=#2,laser beam recurs={\level}{#2}}}}
+  },
+  laser beam/.style={preaction={laser beam recurs={20}{#1}},draw opacity=1,draw=#1},
+}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[curve]{xypic}
+\usepackage{bm}
+\usetikzlibrary{calc}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{stackengine,scalerel,graphicx}
+\savestack\UAtextstyle{\stackon[-2.7pt]{$\rule[2.3pt]{4pt}{.35pt}$}{\scalebox{-1}{$U$}}}
+\def\UA{\scalerel*{\UAtextstyle}{X}}
+
+\definecolor{navy}{rgb}{0,0,.65}
+
+%This reverse-links the references in the paper. Useful for large papers.
+\usepackage[colorlinks]{hyperref}
+\hypersetup{colorlinks=true,urlcolor=teal,linkcolor=navy,citecolor=navy}
+
+\makeatletter
+\def\@tocline#1#2#3#4#5#6#7{\relax
+  \ifnum #1>\c@tocdepth % then omit
+  \else
+    \par \addpenalty\@secpenalty\addvspace{#2}%
+    \begingroup \hyphenpenalty\@M
+    \@ifempty{#4}{%
+      \@tempdima\csname r@tocindent\number#1\endcsname\relax
+    }{%
+      \@tempdima#4\relax
+    }%
+    \parindent\z@ \leftskip#3\relax \advance\leftskip\@tempdima\relax
+    \rightskip\@pnumwidth plus4em \parfillskip-\@pnumwidth
+    #5\leavevmode\hskip-\@tempdima
+      \ifcase #1
+       \or\or \hskip 1em \or \hskip 2em \else \hskip 3em \fi%
+      #6\nobreak\relax
+    \dotfill\hbox to\@pnumwidth{\@tocpagenum{#7}}\par
+    \nobreak
+    \endgroup
+  \fi}
+\makeatother
+
+\renewcommand{\familydefault}{ppl}
+\setlength{\marginparwidth}{1in}
+\setlength{\marginparsep}{0in}
+\setlength{\marginparpush}{0.1in}
+\setlength{\topmargin}{0in}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\footskip}{.3in}
+\setlength{\textheight}{9.0in}
+\setlength{\textwidth}{6.25in}
+\setlength{\parskip}{0pt}
+
+%\newtheorem{theorem}{Theorem}[section]
+\newtheorem{composition}{Composition}[]
+\renewcommand*{\thecomposition}{\Alph{composition}}
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{monodromy theorem}{Monodromy Theorem}[subsection]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{warning}[theorem]{Warning}
+\newtheorem{research objectives}{Research objectives}[subsection]
+\newtheorem{questions}{Question}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{research question}[theorem]{Research questions}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{aside question}[theorem]{Aside question}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{sketch}[theorem]{Sketch}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{construction}[theorem]{Construction}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{quasi-theorem}[theorem]{Quasi-Theorem}
+\newtheorem{prop/def}[theorem]{Proposition/Definition}
+\newtheorem{blank remark}[theorem]{}
+\newtheorem{ssubsection}[theorem]{}
+\newtheorem{terminology and comment}[theorem]{Terminology and comment}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{computation}[theorem]{Computation}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{setup}[theorem]{Setup}
+\newtheorem{purity hypothesis}[theorem]{Purity hypothesis}
+\newtheorem{corollary of the purity hypothesis}[theorem]{Corollary of the purity hypothesis}
+
+%Theorem indexed with letters A, B, C, ...
+\newtheorem{Th}{Theorem}[]
+\renewcommand*{\theTh}{\Alph{Th}}
+
+\newtheorem{rem1}[theorem]{Remark}
+\newenvironment{remark}{\begin{rem1}\em}{\end{rem1}}
+
+\newtheorem{not1}[theorem]{Notation}
+\newenvironment{notation}{\begin{not1}\em}{\end{not1}}
+
+%% Math Blackboard
+\newcommand{\A}{{\mathbb{A}}}           
+\newcommand{\CC} {{\mathbb C}}       
+\newcommand{\DD} {{\mathbb D}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\GG}{\mathbb{G}}
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\NN} {{\mathbb N}}		
+\newcommand{\PP}{\mathbb{P}}         
+\newcommand{\QQ} {{\mathbb Q}}		
+\newcommand{\RR} {{\mathbb R}}		
+\newcommand{\Circ} {{\mathbb S}}		
+\newcommand{\ZZ} {{\mathbb Z}}		
+\newcommand{\TT} {{\mathbb T}}	
+\newcommand{\FF}{{\mathbb F}}
+
+%%Presuperscript
+\def\presuper#1#2%
+  {\mathop{}%
+   \mathopen{\vphantom{#2}}^{#1}%
+   \kern-\scriptspace%
+   #2}
+	
+\newcommand{\BC}{\text{BC}}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Circpec}{Spec_{\ \!}}
+\DeclareMathOperator{\Split}{split}
+\DeclareMathOperator{\Div}{div}
+\DeclareMathOperator{\ord}{ord_{\ \!}}
+
+\newcommand{\model}[1]{{\slantbox[.5]{$\mathcal{#1}$}\ }}
+
+\newcommand{\lra}{{\longrightarrow}}
+\DeclareMathOperator{\Def}{\overset{{}_{\text{def}}}{=}}
+
+% slant box
+\newsavebox{\foobox}
+\newcommand{\slantbox}[2][.5]
+  {%
+    \mbox
+      {%
+        \sbox{\foobox}{#2}%
+        \hskip\wd\foobox
+        \pdfsave
+        \pdfsetmatrix{1 0 #1 1}%
+        \llap{\usebox{\foobox}}%
+        \pdfrestore
+      }%
+  }
+
+%%Prettier monomorphism and epimorphism arrows
+\newcommand{\mono}{\!\xymatrix{{}\ar@{^{(}->}[r]&{}}\!}
+\newcommand{\epi}{\!\xymatrix{{}\ar@{->>}[r]&{}}\!}
+\newcommand{\rat}{\!\xymatrix{{}\ar@{-->}[r]&{}}\!}
+
+%%Young diagram
+\newcommand{\young}{\scalebox{.7}{$\pmb{\square\!\square}${\larger\larger $\pmb{\cdot\!\cdot\!\cdot}$}$\pmb{\square}$}}
+
+%smaller subscript closed field
+\newcommand{\lilF}{\mbox{{\smaller\smaller\smaller\smaller\smaller $\overline{\FF_{\!q}}$}}}
+
+\newcommand{\iso}{\cong}
+\newcommand{\disc}{\text{disc}}
+
+% Tyler comments
+\newcommand{\tyler}[1]{{\color{red} [#1\ \ \textemdash Tyler]}}
+
+% Some slanted letters
+\newcommand{\TP}{\slantbox[.3]{$\mathcal{TP}$}}
+
+%Left action
+\newcommand{\lact}{\ \raisebox{8pt}{\rotatebox{-90}{$\circlearrowright$}}\ }
+
+%Left quotient
+\newcommand{\lquot}[2]{\raisebox{-1.5pt}{$#1$}\big\backslash\raisebox{1.5pt}{$#2$}}
+
+%Right quotient
+\newcommand{\rquot}[2]{\raisebox{1.5pt}{$#1$}/\raisebox{-1.5pt}{$#2$}}
+
+%importantmatrix
+\newcommand{\MM}{\big(\begin{smallmatrix}0 & -1\\ 1 & -1\end{smallmatrix}\big)}
+
+%compactified spec
+\newcommand{\SpecZN}[1]{\overline{\text{Spec}_{\ \!}\ZZ}{}^{(#1)}}
+\newcommand{\SpecZ}{\overline{\text{Spec}_{\ \!}\ZZ}}
+
+%nice sep
+\newcommand{\sep}{\textsf{sep}}
+
+%nice res
+\newcommand{\res}{\text{res}^{\eta}_{s}}
+
+%nice sp
+\newcommand{\spe}{\bold{Sp}}
+
+%nice Sh
+\newcommand{\Sh}{\bold{Sh}}
+
+%nice et
+\newcommand{\et}{\text{\'et}}
+
+%nice M_g bar
+\newcommand{\Mg}{{\ \ \overline{\!\!\mathscr{M}_{g}}}}
+\newcommand{\Mgmbar}{\overline{M_{g}{\!\!}^{\text{{\smaller\smaller\smaller\smaller\smaller $\ (m)$}}}}}
+\newcommand{\Mgm}{M_{g}{\!\!}^{\text{{\smaller\smaller\smaller\smaller\smaller $\ (m)$}}}}
+
+
+\stackMath
+\newcommand\reallywidehat[1]{%
+\savestack{\tmpbox}{\stretchto{%
+  \scaleto{%
+    \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
+    {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
+  }{\textheight}% 
+}{0.5ex}}%
+\stackon[1pt]{#1}{\tmpbox}%
+}
+
+%changed footnote style
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\numberwithin{equation}{theorem}
+
+%
+\newcounter{totfigures}
+
+\providecommand\totfig{} 
+
+\makeatletter
+\AtEndDocument{%
+  \addtocounter{totfigures}{\value{figure}}%
+  \immediate\write\@mainaux{%
+    \string\gdef\string\totfig{\number\value{totfigures}}%
+  }%
+}
+\makeatother
+
+\pretocmd{\chapter}{\addtocounter{totfigures}{\value{figure}}\setcounter{figure}{0}}{}{}
+
+
+
+\usepackage{epigraph}
+\setlength\epigraphwidth{.8\textwidth}
+\setlength\epigraphrule{0pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{{\smaller\smaller\smaller Notes on}\\ Galois actions on algebraically tempered scales}
+\author{Tyler Foster}
+%\address{
+%Department of Mathematics, Florida State University,
+%Tallahassee, FL 
+%32306}
+%\email{\href{mailto:tsfoster@.fsu.edu}{tsfoster@fsu.edu}}
+
+\date{\today}
+
+\maketitle
+\setcounter{tocdepth}{2}
+
+\tableofcontents
+
+\begin{section}{Mathematical setting}
+
+\begin{subsection}{Tonic frequency as a vector}
+At the outset, we take a {\em frequency} to be some kind of unit that we can rescale, as in the operation
+\begin{equation}\label{equation: rescale}
+\lambda\ \text{Hz}\ \ \ \longmapsto\ \ \ 2\lambda\ \text{Hz},
+\end{equation}
+and that we can add, as in the operation
+\begin{equation}\label{equation: add}
+\lambda\ \text{Hz},\ \ \ \mu\ \text{Hz}\ \ \ \longmapsto\ \ \ \lambda+\mu\ \text{Hz}.
+\end{equation}
+The ability to rescale corresponds to the ability to change pitch, to create musical movement along intervals. The ability to add pitches together is perhaps a bit suspect from a musical perspective, but it does correspond to nonlinear distortion phenomenon that occur in music, called \href{https://en.wikipedia.org/wiki/Combination_tone}{{\em Tartini tones}}.\footnote{\ ``In a power chord, the ratio between the frequencies of the root and fifth are very close to the just interval 3:2. When played through distortion, the intermodulation leads to the production of partials closely related in frequency to the harmonics of the original two notes, producing a more coherent sound. The intermodulation makes the spectrum of the sound expand in both directions, and with enough distortion, a new fundamental frequency component appears an octave lower than the root note of the chord played without distortion, giving a richer, more bassy and more subjectively `powerful' sound than the undistorted signal. Even when played without distortion, the simple ratios between the harmonics in the notes of a power chord can give a stark and powerful sound, owing to the resultant tone (combination tone) effect.''\ \textemdash\ Wikipedia, {\em Power chord}}
+
+The operations \eqref{equation: rescale} and \eqref{equation: add} make frequencies look like elements in vector spaces. We will treat them as such.
+
+Fix a frequency
+\begin{equation}\label{equation: tonic}
+\lambda\ \text{Hz}
+\end{equation}
+once and for all. 
+
+\begin{subsection}{Just intoned scales as $\QQ$-vector spaces}
+This frequency \eqref{equation: tonic} will serve as a {\em generator} for various scales that we will construct. Initially, we want to be somewhat agnostic about what it means to ``generate a scale from a frequency $\lambda\ \text{Hz}$,'' as we will end up giving several incompatible interpretations of what it means to ``generate a scale.''
+\end{subsection}
+
+\begin{example}
+{\bf Just intoned scale with tonic $\pmb{\lambda}\ \text{Hz}$.}
+\normalfont
+If we take $\lambda\ \text{Hz}$ to be our tonic, then the commonly encountered {\em just intervals over this tonic} occur at the frequencies
+	$$
+	2\lambda\ \text{Hz},\ \ \ \ \ \ 
+	\tfrac{3}{2}\lambda\ \text{Hz},\ \ \ \ \ \ 
+	\tfrac{4}{3}\lambda\ \text{Hz},\ \ \ \ \ \ 
+	\tfrac{5}{4}\lambda\ \text{Hz},\ \ \ \ \ \ 
+	\tfrac{6}{5}\lambda\ \text{Hz},\ \ \ \ \ \ \text{and}\ \ \ \ \ \ 
+	\tfrac{9}{8}\lambda\ \text{Hz}.
+	$$
+These are all instances of multiples $\tfrac{m}{n}\lambda\ \text{Hz}$ by rational numbers $\tfrac{m}{n}\in\QQ$ with relatively small \href{https://en.wikipedia.org/wiki/Height_function#Naive_height}{{\em naive multiplicative height}}. The set of all $\QQ$-multiples of the frequency $\lambda\ \text{Hz}$ is the $\QQ$-vector space
+	\begin{equation}\label{equation: just vector space}
+	V\ \ =\ \ \QQ\lambda\ \text{Hz}.
+	\end{equation}
+If we think of ``a just-intoned scale with tonic $\lambda\ \text{Hz}$'' as any collection of rational multiples of $\lambda\ \text{Hz}$, then the vector space \eqref{equation: just vector space} is the smallest just-intoned scale containing $\lambda\ \text{Hz}$ and containing all just intervals over all of its pitches. We call \eqref{equation: just vector space} the {\em complete just scale generated by the pitch $\lambda\ \text{Hz}$.}
+\end{example}
+\end{subsection}
+
+
+\begin{subsection}{Alternate perspective: Frequencies are vectors in a Lie algebra}
+The real reason we use frequencies is 
+	$$
+	f(t)
+	\ =\ 
+	Ae^{i\ \!2\pi\ \!\lambda\ \!t}
+	$$
+[...]
+	$$
+	Ae^{i\ \!2\pi\ \!\lambda\ \!t}
+	\ \ =\ \ 
+	e^{\text{log}A+i\ \!2\pi\ \!\lambda\ \!t}
+	$$
+[...]
+	$$
+	\begin{array}{rcl}
+	u & \!\!:=\!\! & \text{log}_{\ \!}A \\
+	v & \!\!:=\!\! & 2\pi\ \!\lambda\ \!t
+	\end{array}
+	$$
+[...]
+	$$
+	e^{u+iv}=e^{z}.
+	$$
+[...]
+	$$
+	e^{(-)}\ \!:\ \CC\ \epi\ \CC^{\times}
+	$$
+[...]
+	$$
+	\text{exp}\ \!:\ \mathfrak{g}\ \lra\ G
+	$$
+[...]
+\begin{enumerate}[label={\bf\ \ \ \ \ \ $\blacksquare$}]
+\item {\bf Main premise.} A scales is a vector space $V$ that comes with natural ``exponentiation'' map $\text{exp}:V\lra \CC^\times$ to 
+\end{enumerate}
+	
+\end{subsection}
+
+\end{section}
+
+\begin{section}{The Galois group of the 12-ET scale}
+[...]
+	$$
+	\mathbb{Q}\ \mono\ \mathbb{Q}(i)
+	$$
+[...]
+	$$
+	\mathbb{Q}(i)\ \overset{2:1}{\mono}\ \mathbb{Q}\big(i,\sqrt{2}\big)\ \overset{2:1}{\mono}\ \mathbb{Q}\big(i,\sqrt[4]{2}\big)
+	$$
+[...]
+	$$
+	\mathbb{Q}\ \overset{2:1}{\mono}\ \mathbb{Q}(\zeta_3)\ \overset{3:1}{\mono}\ \mathbb{Q}\big(\zeta_3,\sqrt[3]{2}\big)
+	$$
+[...]
+	$$
+	e^{\zeta_3}
+	\ \ =\ \ 
+	e^{-1/2}\ e^{i\sqrt{3}/2}
+	$$
+\end{section}
+
+\begin{section}{The Galois group of the 5-ET scale}
+[...]
+	$$
+	\QQ\ \overset{4:1}{\mono}\ \QQ(\zeta_5)\ \overset{5:1}{\mono}\ \QQ(\zeta_5, \sqrt[5]{2})
+	$$
+[...]
+	$$
+	\zeta_{5}
+	\ \ =\ \ 
+	\tfrac{\ -1\ \!+\ \!\sqrt{5}\ }{4}\ +\ i\ \tfrac{\ \sqrt{10\ \!+\ \!2\ \!\sqrt{5}}\ }{4}
+	$$
+[...]
+	$$
+	\zeta_5\ \ \longmapsto\ \ \zeta^2_5
+	$$
+[...]
+	$$
+	\begin{array}{ccccc}
+	1 & \zeta_5 & \zeta^2_5 & \zeta^3_5 & \zeta^4_5 \\[-4pt]
+	{\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} \\[12pt]
+	1 & \zeta^2_5 & \zeta^4_5 & \zeta_5 & \zeta^3_5 \\[-4pt]
+	{\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} \\[12pt]
+	1 & \zeta^4_5 & \zeta^3_5 & \zeta^2_5 & \zeta_5 \\[-4pt]
+	{\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} \\[12pt]
+	1 & \zeta^3_5 & \zeta_5 & \zeta^4_5 & \zeta^2_5 \\[-4pt]
+	{\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} & {\color{gray!75}\rotatebox{-90}{$\mapsto$}} \\[12pt]
+	\pmb{1} & \pmb{\zeta_5} & \pmb{\zeta^2_5} & \pmb{\zeta^3_5} & \pmb{\zeta^4_5}
+	\end{array}
+	$$
+[...]
+	$$
+	A
+	$$
+\end{section}
+
+\begin{section}{Implementation proposals}
+Here we provide examples of how one might implement the above ideas.
+
+\begin{subsection}{Absolute amplitude- and time-scales}
+Given a audio signal $f(t)$, we can rescale it amplitude via
+	$$
+	f(t)
+	\ \ \longmapsto\ \ 
+	A\cdot f(t)
+	$$
+for any $A\in\RR_{\ge 0}$. We can also rescale its rate via
+	$$
+	f(t)
+	\ \ \longmapsto\ \ 
+	f(\rho\cdot t)
+	$$
+[...]
+	$$
+	e^{\text{log}\ \!A+u}e^{i2\pi v\rho t}
+	$$
+	
+\end{subsection}
+
+\end{section}
+
+\vskip 1cm
+
+\bibliographystyle{amsalpha}
+\bibliography{fault}
+
+\end{document}

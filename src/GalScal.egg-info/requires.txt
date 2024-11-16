@@ -1,0 +1,4 @@
+numpy>=1.25.1
+pytest>=8.3.3
+scipy>=1.14.1
+setuptools>=68.0.0
