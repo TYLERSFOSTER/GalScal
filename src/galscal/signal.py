@@ -135,5 +135,7 @@ class GalSignal(Signal):
       absolute_rate=absolute_rate,
     )
 
-    self.element = element_poly
-    self.field = field_ext_poly
+    self.element_poly = element_poly
+    self.element = self.element_poly
+    self.field_poly = field_ext_poly
+    self.field = self.field_poly

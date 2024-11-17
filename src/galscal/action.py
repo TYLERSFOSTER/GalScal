@@ -27,7 +27,7 @@ class Transform():
     self.field_poly = field_poly
 
     assert isinstance(field_poly, galscal.Polynomial)
-    self.dimension = field_poly.degree + 1
+    self.dimension = self.field_poly.degree + 1
     self.dim = self.dimension
 
     assert isinstance(matrix, np.ndarray)

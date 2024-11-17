@@ -22,7 +22,11 @@ class Polynomial():
     Polynomial.coeffs : row vector of coefficients encoding the polynomial
   """
   def __init__(self, coeffs : np.ndarray):
-    assert isinstance(coeffs, np.ndarray)
+    assert isinstance(coeffs, np.ndarray) or isinstance(coeffs, list)
+    if isinstance(coeffs, list):
+      for entry in coeffs:
+        assert isinstance(entry, float)
+      coeffs = np.array(coeffs)
     assert len(coeffs.shape) == 1
     assert coeffs[-1] != 0
 
