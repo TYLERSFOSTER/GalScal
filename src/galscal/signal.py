@@ -3,6 +3,7 @@ Signal object, representing signals Ae^(omega rt) with Galois structure
 """
 from __future__ import annotations
 
+import os
 import math
 import numpy as np
 from scipy.io.wavfile import write
@@ -70,7 +71,7 @@ class Signal():
     Save the signal as a WAV file over a given time interval.
 
     Args:
-      safe_path : path to save WAV file to
+      save_path : path to save WAV file to
       time_interval : pair (start_time, end_time) describing interval to sample t from
       samples_per_second : WAV file sample rate
     """
@@ -90,6 +91,8 @@ class Signal():
     
     values_to_write = np.int16(max_adjusted_values.real)
     write(save_path, samples_per_second, values_to_write)
+
+    print('Signal over time interval ' + str(list(time_interval)) + " saved as \'" + os.getcwd() + "/" + save_path + ".wav\'.")
 
 
 
