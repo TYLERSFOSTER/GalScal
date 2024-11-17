@@ -92,7 +92,7 @@ class Signal():
     values_to_write = np.int16(max_adjusted_values.real)
     write(save_path, samples_per_second, values_to_write)
 
-    print('Signal over time interval ' + str(list(time_interval)) + " saved as \'" + os.getcwd() + "/" + save_path + ".wav\'.")
+    print('Signal over time interval ' + str(list(time_interval)) + " saved in following location:\n\'" + os.getcwd() + "/" + save_path + ".wav\'")
 
 
 
