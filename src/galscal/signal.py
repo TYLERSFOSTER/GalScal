@@ -23,7 +23,11 @@ class Signal():
       16-bit signed integer
 
   """
-  def __init__(self, omega, absolute_amplitude=1., absolute_rate=1.):
+  def __init__(self,
+      omega,
+      absolute_amplitude : float=1.,
+      absolute_rate : float=1.,
+  ) -> None:
     assert isinstance(omega, complex)
     self.root = omega
 
@@ -37,9 +41,12 @@ class Signal():
     self.max_val = np.iinfo(np.int16).max
 
   
-  def eval_at(self, t):
+  def eval_at(self, t : float) -> complex:
     """
-    Evaluate signal
+    Evaluate signal at a given time t
+
+    Args:
+      t : time t, measured in seconds
     """
     arg = complex(
       self.abs_logamp + self.log_amplitude,
@@ -56,7 +63,12 @@ class Signal():
     samples_per_second : int=44100,
   ) -> None:
     """
-    Save the signal as a WAV file over a given time interval
+    Save the signal as a WAV file over a given time interval.
+
+    Args:
+      safe_path : path to save WAV file to
+      time_interval : pair (start_time, end_time) describing interval to sample t from
+      samples_per_second : WAV file sample rate
     """
     start_time = time_interval[0]
     end_time =  time_interval[1]
@@ -84,8 +96,9 @@ class GalSignal(Signal):
   field extension in order to track Galois actions on the signal object.
 
   Attributes:
-    GalSignal.element = element_poly
-    GalSignal.field = field_ext_poly
+    GalSignal.min_arg_root : 
+    GalSignal.element : polynomial descrbing an element of our field
+    GalSignal.field : polynomial describing the field extension frequencies lie in
     GalSignal.log_amplitude : the real part of omega
     GalSignal.frequency : the imaginary part of omega
     GalSignal.abs_amp : A
