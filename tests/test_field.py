@@ -49,3 +49,20 @@ def test_roots(vec_1, answer):
 
   assert set(poly_roots) == set(answer)
 
+
+
+@pytest.mark.parametrize("vec_1, answer", [
+    ([1., 0., 1.], complex(0., 1.)),
+    ([-4., 0., 1.], complex(2., 0.)),
+    ([2., -2., 1.], complex(1., 1.)),
+    ([-1., 0., 0., 0., 1.], complex(1., 0.)),
+])
+def test_min_aeg_root(vec_1, answer):
+  poly_1 = galscal.Polynomial(np.array(vec_1))
+
+  poly_root = poly_1.min_arg_root()
+  poly_root = complex(round(poly_root.real), round(poly_root.imag))
+  print('POLY ROOT:', poly_root)
+
+  assert poly_root == answer
+

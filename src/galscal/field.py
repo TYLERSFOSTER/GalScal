@@ -1,7 +1,7 @@
 """
 Classes for representing a finiely generated number field  
 """
-
+import cmath
 import numpy as np
 import copy
 import typing
@@ -165,6 +165,25 @@ class Polynomial():
     coefficients = np.flip(self.coeff_vec)
     output = np.roots(coefficients)
     output = [complex(entry) for entry in output]
+
+    return output
+  
+
+  def min_arg_root(self):
+    poly_roots = self.roots()
+
+    complex_args = []
+    arg_dict = {}
+    for elem in poly_roots:
+      elem_arg = cmath.phase(complex(elem))
+      elem_arg = elem_arg%(2*np.pi)
+
+      complex_args.append(elem_arg)
+      arg_dict.update({elem_arg : elem})
+    
+    min_arg = min(complex_args)
+
+    output = arg_dict[min_arg]
 
     return output
   

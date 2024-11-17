@@ -1,15 +1,21 @@
+import os
 import numpy as np
 import pytest
+from scipy.io import wavfile
 
 import galscal
 
+
+
 @pytest.mark.parametrize("omega, answer", [
     (complex(1., 0.), 1.),
+    (complex(0., 1.), complex(0., 1.)),
 ])
 def test_Signal(omega, answer):
   signal = galscal.Signal(omega)
 
   assert signal.root == omega
+
 
 
 @pytest.mark.parametrize("element_vec, field_vec, answer", [
@@ -19,13 +25,70 @@ def test_GalSignal(element_vec, field_vec, answer):
   element_poly = galscal.Polynomial(element_vec)
   field_poly = galscal.Polynomial(field_vec)
 
-
-  alpha = complex(field_poly.roots()[0])
-  print('ALPHA:', alpha)
+  alpha = complex(field_poly.roots()[0])  
   assert isinstance(alpha, complex)
   omega = element_poly.eval_at(alpha)
-  print(omega)
 
   signal = galscal.GalSignal(element_poly, field_poly)
 
   assert True
+
+
+
+@pytest.mark.parametrize("omega, t, answer", [
+    (complex(0., 2*np.pi), 1., 1.),
+    (complex(1., 0.), 1., np.exp(complex(1., 0.))),
+])
+def test_eval_at(omega, t, answer):
+  signal = galscal.Signal(omega)
+
+  value = signal.eval_at(t)
+  value = complex(round(value.real, 6), round(value.imag, 6))
+  
+  answer = complex(round(answer.real, 6), round(answer.imag, 6))
+  assert value == answer
+
+
+
+@pytest.mark.parametrize("save_path, interval, omega, samples_per_second, answer", [
+    ("TEST_FILE_TEST_FILE", (0., 1.), complex(0., 2*np.pi), 44100, 44100),
+    ("TEST_FILE_TEST_FILE", (0., 1.), complex(0., 2*np.pi), 100, 100),
+    ("TEST_FILE_TEST_FILE", (0., 2.), complex(0., 2*np.pi), 44100, 2 * 44100),
+    ("TEST_FILE_TEST_FILE", (0., 1.), complex(0., 4*np.pi), 44100, 44100),
+    ("TEST_FILE_TEST_FILE", (0., 1.), complex(0., 0.), 100, 100),
+    ("TEST_FILE_TEST_FILE", (0., 2.), complex(-1., 4*np.pi), 44100, 2 * 44100),
+])
+def test_sav_wav_file_length(save_path, interval, omega, samples_per_second, answer):
+  signal = galscal.Signal(omega)
+
+  signal.save_wav(save_path, interval, samples_per_second=samples_per_second)
+  sample_rate, saved_wav = wavfile.read(save_path)
+
+  print("LENGTH:", saved_wav.shape)
+  os.remove(save_path)
+
+  assert saved_wav.shape[0] == answer
+
+
+
+@pytest.mark.parametrize("save_path, interval, omega, samples_per_second, answer", [
+    ("TEST_FILE_TEST_FILE", (0., 1.), complex(0., 2*np.pi), 44100, (1., -1.)),
+    ("TEST_FILE_TEST_FILE", (0., 1.), complex(0., 2*np.pi), 100, (1., -1.)),
+    ("TEST_FILE_TEST_FILE", (0., 2.), complex(0., 2*np.pi), 44100, (1., -1.)),
+    ("TEST_FILE_TEST_FILE", (0., 1.), complex(0., 0.), 44100, (1., 1.)),
+    ("TEST_FILE_TEST_FILE", (0., 1.), complex(0., 0.), 100, (1., 1.)),
+    ("TEST_FILE_TEST_FILE", (0., 2.), complex(-1., 0.), 44100, (1., 1.)),
+])
+def test_sav_wav_file_amplitudes(save_path, interval, omega, samples_per_second, answer):
+  signal = galscal.Signal(omega)
+
+  signal.save_wav(save_path, interval, samples_per_second=samples_per_second)
+  sample_rate, saved_wav = wavfile.read(save_path)
+
+  file_max = round(np.max(saved_wav)/np.iinfo(np.int16).max, 2)
+  file_min = round(np.min(saved_wav)/np.iinfo(np.int16).max, 2)
+  os.remove(save_path)
+
+  assert file_max == answer[0] and file_min == answer[1]
+
+

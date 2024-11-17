@@ -12,5 +12,6 @@ License: MIT License
 
 from .field import Polynomial
 from .signal import Signal, GalSignal
+from .action import Transform
 
 __all__ = ['Polynomial', 'Signal', 'GalSignal']

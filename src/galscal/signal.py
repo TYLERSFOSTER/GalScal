@@ -28,7 +28,7 @@ class Signal():
     self.root = omega
 
     self.log_amplitude = omega.real
-    self.frequency = omega.imag
+    self.frequency = omega.imag/(2*np.pi)
 
     self.abs_amp = absolute_amplitude
     self.abs_logamp = np.log(self.abs_amp)
@@ -41,10 +41,10 @@ class Signal():
     """
     Evaluate signal
     """
-    arg = \
-      self.abs_logamp \
-        + self.log_amplitude \
-          + self.frequency * self.abs_rate * t
+    arg = complex(
+      self.abs_logamp + self.log_amplitude,
+      2*np.pi*self.frequency * self.abs_rate * t,
+    )
     output = np.exp(arg)
 
     return output
@@ -64,11 +64,15 @@ class Signal():
     sample_count = math.floor(samples_per_second * duration)
 
     T = np.linspace(start_time, end_time, sample_count)
-    signal_values = self.eval_at(T)
+
+    signal_values_list = [self.eval_at(t) for t in T]
+    signal_values = np.array(signal_values_list)
+    # signal_values = self.eval_at(T)
+
     normed_values = signal_values / np.max(np.abs(signal_values))
     max_adjusted_values = normed_values * self.max_val
     
-    values_to_write = np.int16(max_adjusted_values)
+    values_to_write = np.int16(max_adjusted_values.real)
     write(save_path, samples_per_second, values_to_write)
 
 
@@ -97,10 +101,11 @@ class GalSignal(Signal):
     absolute_amplitude=1.,
     absolute_rate=1.,
   ):
-    alpha = complex(field_ext_poly.roots()[0])
-    reduced_element_poly = element_poly.reduced_by(field_ext_poly)
-    omega = reduced_element_poly.eval_at(alpha)
+    self.min_arg_root = complex(field_ext_poly.min_arg_root())
 
+    reduced_element_poly = element_poly.reduced_by(field_ext_poly)
+
+    omega = reduced_element_poly.eval_at(self.min_arg_root)
     super().__init__(
       omega, 
       absolute_amplitude=absolute_amplitude, 
