@@ -1,9 +1,32 @@
 import os
+import librosa
+import soundfile as sf
 import numpy as np
 import pytest
 from scipy.io import wavfile
 
 import galscal
+
+
+
+def detect_pitch(wav_file):
+    data, samplerate = sf.read(wav_file)
+    if len(data.shape) > 1:
+        data = data[:, 0]
+        
+    pitches, magnitudes = librosa.piptrack(y=data, sr=samplerate, n_fft=4096, hop_length=512)
+    
+    pitch_values = []
+    for t in range(pitches.shape[1]):
+        index = magnitudes[:, t].argmax()
+        pitch = pitches[index, t]
+        if pitch > 0:  # Avoiding zero (unvoiced)
+            pitch_values.append(pitch)
+
+    if pitch_values:
+        return np.mean(pitch_values)
+    else:
+        return 0
 
 
 
@@ -92,3 +115,19 @@ def test_sav_wav_file_amplitudes(save_path, interval, omega, samples_per_second,
   assert file_max == answer[0] and file_min == answer[1]
 
 
+
+@pytest.mark.parametrize("save_path, interval, omega, samples_per_second, pitch", [
+    ("TEST_FILE_TEST_FILE", (0., 1.), complex(0., 2*np.pi), 44100, 666), # Mark of THE BEAST
+    ("TEST_FILE_TEST_FILE", (0., 1.), complex(0., 2*np.pi), 44100, 440),
+    ("TEST_FILE_TEST_FILE", (0., 1.), complex(0., 2*np.pi), 44100, 220),
+])
+def test_sav_wav_pitch(save_path, interval, omega, samples_per_second, pitch):
+  signal = galscal.Signal(pitch * omega)
+
+  signal.save_wav(save_path, interval, samples_per_second=samples_per_second)
+  sample_rate, saved_wav = wavfile.read(save_path)
+
+  wav_pitch = detect_pitch(save_path)
+  os.remove(save_path)
+
+  assert round(wav_pitch, 0) == pitch
