@@ -1,12 +1,14 @@
 """
 Classes for representing a finiely generated number field  
 """
+from __future__ import annotations
+
 import cmath
 import numpy as np
 import copy
 import typing
 
-
+import galscal
 
 class Polynomial():
   """
@@ -48,7 +50,7 @@ class Polynomial():
     }
 
 
-  def coeff(self, n):
+  def coeff(self, n : int) -> float:
     """
     Return the coefficient of the degree n term of the polynomial
 
@@ -113,7 +115,7 @@ class Polynomial():
     return poly_str
 
   
-  def reduces(self, polynomial):
+  def reduces(self, polynomial : Polynomial):
     """
     Use the polynomial `self` to reduce a second polynomial
 
@@ -151,7 +153,7 @@ class Polynomial():
     Important: This method reverses the roles of `self` and the second polynomial
     in the method `reduces`
     """
-    assert isinstance(polynomial, Polynomial)
+    assert isinstance(polynomial, galscal.Polynomial)
 
     output_polynomial = polynomial.reduces(self)
   

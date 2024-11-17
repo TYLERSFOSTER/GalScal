@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
 <title>galscal.signal API documentation</title>
-<meta name="description" content="Collects Signal class, representing signals Ae^(omega rt)">
+<meta name="description" content="Signal object, representing signals Ae^(omega rt) with Galois structure">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -25,7 +25,7 @@ hljs.highlightAll();
 <h1 class="title">Module <code>galscal.signal</code></h1>
 </header>
 <section id="section-intro">
-<p>Collects Signal class, representing signals Ae^(omega rt)</p>
+<p>Signal object, representing signals Ae^(omega rt) with Galois structure</p>
 </section>
 <section>
 </section>
@@ -38,7 +38,7 @@ hljs.highlightAll();
 <dl>
 <dt id="galscal.signal.GalSignal"><code class="flex name class">
 <span>class <span class="ident">GalSignal</span></span>
-<span>(</span><span>element_poly: <a title="galscal.field.Polynomial" href="field.html#galscal.field.Polynomial">Polynomial</a>, field_ext_poly, absolute_amplitude=1.0, absolute_rate=1.0)</span>
+<span>(</span><span>element_poly: <a title="galscal.Polynomial" href="index.html#galscal.Polynomial">Polynomial</a>, field_ext_poly: <a title="galscal.Polynomial" href="index.html#galscal.Polynomial">Polynomial</a>, absolute_amplitude: float = 1.0, absolute_rate: float = 1.0)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing a version of the same signal object represented by the
@@ -54,7 +54,10 @@ GalSignal.abs_amp : A
 GalSignal.abs_logamp : log A
 GalSignal.abs_rate : r
 GalSignal.max_val : The maximum possible value that can be represented by a
-16-bit signed integer</p></div>
+16-bit signed integer</p>
+<h2 id="methods">Methods</h2>
+<p>Signal.eval_at : [&hellip;]
+Signal.save_wav : [&hellip;]</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -77,12 +80,15 @@ GalSignal.max_val : The maximum possible value that can be represented by a
     GalSignal.max_val : The maximum possible value that can be represented by a
       16-bit signed integer
 
+  Methods:
+    Signal.eval_at : [...]
+    Signal.save_wav : [...]
   &#34;&#34;&#34;
   def __init__(self, 
     element_poly : galscal.Polynomial,
-    field_ext_poly,
-    absolute_amplitude=1.,
-    absolute_rate=1.,
+    field_ext_poly : galscal.Polynomial,
+    absolute_amplitude : float=1.,
+    absolute_rate : float=1.,
   ):
     self.min_arg_root = complex(field_ext_poly.min_arg_root())
 
@@ -114,7 +120,7 @@ GalSignal.max_val : The maximum possible value that can be represented by a
 </dd>
 <dt id="galscal.signal.Signal"><code class="flex name class">
 <span>class <span class="ident">Signal</span></span>
-<span>(</span><span>omega, absolute_amplitude: float = 1.0, absolute_rate: float = 1.0)</span>
+<span>(</span><span>omega: complex, absolute_amplitude: float = 1.0, absolute_rate: float = 1.0)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing a signal of the form A e^(omega rt), for fixed positive
@@ -126,7 +132,10 @@ Signal.abs_amp : A
 Signal.abs_logamp : log A
 Signal.abs_rate : r
 Signal.max_val : The maximum possible value that can be represented by a
-16-bit signed integer</p></div>
+16-bit signed integer</p>
+<h2 id="methods">Methods</h2>
+<p>Signal.eval_at : [&hellip;]
+Signal.save_wav : [&hellip;]</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -145,9 +154,12 @@ Signal.max_val : The maximum possible value that can be represented by a
     Signal.max_val : The maximum possible value that can be represented by a
       16-bit signed integer
 
+  Methods:
+    Signal.eval_at : [...]
+    Signal.save_wav : [...]
   &#34;&#34;&#34;
   def __init__(self,
-      omega,
+      omega : complex,
       absolute_amplitude : float=1.,
       absolute_rate : float=1.,
   ) -&gt; None:

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
 <title>galscal.action API documentation</title>
-<meta name="description" content="">
+<meta name="description" content="Galosi actions on signal objects">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -25,6 +25,7 @@ hljs.highlightAll();
 <h1 class="title">Module <code>galscal.action</code></h1>
 </header>
 <section id="section-intro">
+<p>Galosi actions on signal objects</p>
 </section>
 <section>
 </section>
@@ -40,12 +41,35 @@ hljs.highlightAll();
 <span>(</span><span>matrix, field_poly)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Class representing an emdomorphism on elements in a field,
+with ability to act on signal object.</p>
+<h2 id="attributes">Attributes</h2>
+<p>Transform.field_poly : [&hellip;]
+Transform.dimension : [&hellip;]
+Transform.dim : shorthand for Transform.dimension
+Transform.matrix : [&hellip;]</p>
+<h2 id="methods">Methods</h2>
+<p>Transform.on_elem :
+Transform.on_galsig :</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Transform():
+  &#34;&#34;&#34;
+  Class representing an emdomorphism on elements in a field,
+  with ability to act on signal object.
+
+  Attributes:
+    Transform.field_poly : [...]
+    Transform.dimension : [...]
+    Transform.dim : shorthand for Transform.dimension
+    Transform.matrix : [...]
+
+  Methods:
+    Transform.on_elem : 
+    Transform.on_galsig : 
+  &#34;&#34;&#34;
   def __init__(self, matrix, field_poly):
     self.field_poly = field_poly
 

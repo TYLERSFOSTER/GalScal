@@ -1,6 +1,7 @@
 """
-Collects Signal class, representing signals Ae^(omega rt)
+Signal object, representing signals Ae^(omega rt) with Galois structure
 """
+from __future__ import annotations
 
 import math
 import numpy as np
@@ -22,9 +23,12 @@ class Signal():
     Signal.max_val : The maximum possible value that can be represented by a
       16-bit signed integer
 
+  Methods:
+    Signal.eval_at : [...]
+    Signal.save_wav : [...]
   """
   def __init__(self,
-      omega,
+      omega : complex,
       absolute_amplitude : float=1.,
       absolute_rate : float=1.,
   ) -> None:
@@ -107,12 +111,15 @@ class GalSignal(Signal):
     GalSignal.max_val : The maximum possible value that can be represented by a
       16-bit signed integer
 
+  Methods:
+    Signal.eval_at : [...]
+    Signal.save_wav : [...]
   """
   def __init__(self, 
     element_poly : galscal.Polynomial,
-    field_ext_poly,
-    absolute_amplitude=1.,
-    absolute_rate=1.,
+    field_ext_poly : galscal.Polynomial,
+    absolute_amplitude : float=1.,
+    absolute_rate : float=1.,
   ):
     self.min_arg_root = complex(field_ext_poly.min_arg_root())
 

@@ -1,9 +1,28 @@
+"""
+Galosi actions on signal objects
+"""
+from __future__ import annotations
+
 import numpy as np
 
 import galscal
 
 
 class Transform():
+  """
+  Class representing an emdomorphism on elements in a field,
+  with ability to act on signal object.
+
+  Attributes:
+    Transform.field_poly : [...]
+    Transform.dimension : [...]
+    Transform.dim : shorthand for Transform.dimension
+    Transform.matrix : [...]
+
+  Methods:
+    Transform.on_elem : 
+    Transform.on_galsig : 
+  """
   def __init__(self, matrix, field_poly):
     self.field_poly = field_poly
 

@@ -38,7 +38,7 @@ License: MIT License</p>
 <dl>
 <dt><code class="name"><a title="galscal.action" href="action.html">galscal.action</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Galosi actions on signal objects</p></div>
 </dd>
 <dt><code class="name"><a title="galscal.field" href="field.html">galscal.field</a></code></dt>
 <dd>
@@ -46,7 +46,7 @@ License: MIT License</p>
 </dd>
 <dt><code class="name"><a title="galscal.signal" href="signal.html">galscal.signal</a></code></dt>
 <dd>
-<div class="desc"><p>Collects Signal class, representing signals Ae^(omega rt)</p></div>
+<div class="desc"><p>Signal object, representing signals Ae^(omega rt) with Galois structure</p></div>
 </dd>
 </dl>
 </section>
@@ -59,7 +59,7 @@ License: MIT License</p>
 <dl>
 <dt id="galscal.GalSignal"><code class="flex name class">
 <span>class <span class="ident">GalSignal</span></span>
-<span>(</span><span>element_poly: <a title="galscal.field.Polynomial" href="field.html#galscal.field.Polynomial">Polynomial</a>, field_ext_poly, absolute_amplitude=1.0, absolute_rate=1.0)</span>
+<span>(</span><span>element_poly: <a title="galscal.Polynomial" href="#galscal.Polynomial">Polynomial</a>, field_ext_poly: <a title="galscal.Polynomial" href="#galscal.Polynomial">Polynomial</a>, absolute_amplitude: float = 1.0, absolute_rate: float = 1.0)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing a version of the same signal object represented by the
@@ -75,7 +75,10 @@ GalSignal.abs_amp : A
 GalSignal.abs_logamp : log A
 GalSignal.abs_rate : r
 GalSignal.max_val : The maximum possible value that can be represented by a
-16-bit signed integer</p></div>
+16-bit signed integer</p>
+<h2 id="methods">Methods</h2>
+<p>Signal.eval_at : [&hellip;]
+Signal.save_wav : [&hellip;]</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -98,12 +101,15 @@ GalSignal.max_val : The maximum possible value that can be represented by a
     GalSignal.max_val : The maximum possible value that can be represented by a
       16-bit signed integer
 
+  Methods:
+    Signal.eval_at : [...]
+    Signal.save_wav : [...]
   &#34;&#34;&#34;
   def __init__(self, 
     element_poly : galscal.Polynomial,
-    field_ext_poly,
-    absolute_amplitude=1.,
-    absolute_rate=1.,
+    field_ext_poly : galscal.Polynomial,
+    absolute_amplitude : float=1.,
+    absolute_rate : float=1.,
   ):
     self.min_arg_root = complex(field_ext_poly.min_arg_root())
 
@@ -135,7 +141,7 @@ GalSignal.max_val : The maximum possible value that can be represented by a
 </dd>
 <dt id="galscal.Polynomial"><code class="flex name class">
 <span>class <span class="ident">Polynomial</span></span>
-<span>(</span><span>coeffs: numpy.ndarray)</span>
+<span>(</span><span>coeffs: np.ndarray)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing a polynomial as a formal object suitable
@@ -189,7 +195,7 @@ The methods <code>reduces</code> and <code>reduce_by</code> are examples of the 
     }
 
 
-  def coeff(self, n):
+  def coeff(self, n : int) -&gt; float:
     &#34;&#34;&#34;
     Return the coefficient of the degree n term of the polynomial
 
@@ -254,7 +260,7 @@ The methods <code>reduces</code> and <code>reduce_by</code> are examples of the 
     return poly_str
 
   
-  def reduces(self, polynomial):
+  def reduces(self, polynomial : Polynomial):
     &#34;&#34;&#34;
     Use the polynomial `self` to reduce a second polynomial
 
@@ -292,7 +298,7 @@ The methods <code>reduces</code> and <code>reduce_by</code> are examples of the 
     Important: This method reverses the roles of `self` and the second polynomial
     in the method `reduces`
     &#34;&#34;&#34;
-    assert isinstance(polynomial, Polynomial)
+    assert isinstance(polynomial, galscal.Polynomial)
 
     output_polynomial = polynomial.reduces(self)
   
@@ -342,13 +348,13 @@ The methods <code>reduces</code> and <code>reduce_by</code> are examples of the 
 <h3>Methods</h3>
 <dl>
 <dt id="galscal.Polynomial.act_by"><code class="name flex">
-<span>def <span class="ident">act_by</span></span>(<span>self, matrix: numpy.ndarray) ‑> None</span>
+<span>def <span class="ident">act_by</span></span>(<span>self, matrix: np.ndarray) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Givne a square matrix G, transform Polynomial(P) to Polynomial(G(P))</p></div>
 </dd>
 <dt id="galscal.Polynomial.coeff"><code class="name flex">
-<span>def <span class="ident">coeff</span></span>(<span>self, n)</span>
+<span>def <span class="ident">coeff</span></span>(<span>self, n: int) ‑> float</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Return the coefficient of the degree n term of the polynomial</p>
@@ -356,7 +362,7 @@ The methods <code>reduces</code> and <code>reduce_by</code> are examples of the 
 <p>n : the degree of the term to return coefficient from</p></div>
 </dd>
 <dt id="galscal.Polynomial.eval_at"><code class="name flex">
-<span>def <span class="ident">eval_at</span></span>(<span>self, x: numpy.ndarray) ‑> numpy.ndarray</span>
+<span>def <span class="ident">eval_at</span></span>(<span>self, x: np.ndarray) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Evaluate the polynomail at point x</p>
@@ -386,7 +392,7 @@ The methods <code>reduces</code> and <code>reduce_by</code> are examples of the 
 in the method <code>reduces</code></p></div>
 </dd>
 <dt id="galscal.Polynomial.reduces"><code class="name flex">
-<span>def <span class="ident">reduces</span></span>(<span>self, polynomial)</span>
+<span>def <span class="ident">reduces</span></span>(<span>self, polynomial: <a title="galscal.Polynomial" href="#galscal.Polynomial">Polynomial</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Use the polynomial <code>self</code> to reduce a second polynomial</p>
@@ -403,7 +409,7 @@ in the method <code>reduces</code></p></div>
 </dd>
 <dt id="galscal.Signal"><code class="flex name class">
 <span>class <span class="ident">Signal</span></span>
-<span>(</span><span>omega, absolute_amplitude: float = 1.0, absolute_rate: float = 1.0)</span>
+<span>(</span><span>omega: complex, absolute_amplitude: float = 1.0, absolute_rate: float = 1.0)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing a signal of the form A e^(omega rt), for fixed positive
@@ -415,7 +421,10 @@ Signal.abs_amp : A
 Signal.abs_logamp : log A
 Signal.abs_rate : r
 Signal.max_val : The maximum possible value that can be represented by a
-16-bit signed integer</p></div>
+16-bit signed integer</p>
+<h2 id="methods">Methods</h2>
+<p>Signal.eval_at : [&hellip;]
+Signal.save_wav : [&hellip;]</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -434,9 +443,12 @@ Signal.max_val : The maximum possible value that can be represented by a
     Signal.max_val : The maximum possible value that can be represented by a
       16-bit signed integer
 
+  Methods:
+    Signal.eval_at : [...]
+    Signal.save_wav : [...]
   &#34;&#34;&#34;
   def __init__(self,
-      omega,
+      omega : complex,
       absolute_amplitude : float=1.,
       absolute_rate : float=1.,
   ) -&gt; None:
