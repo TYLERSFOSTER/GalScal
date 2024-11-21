@@ -447,7 +447,7 @@ The real reason we use frequencies is
 	$$
 \end{section}
 
-\begin{section}{Implementation proposals}
+\begin{section}{Implementation proposal 1: Galois-orbits of complex embeddings}
 Here we provide examples of how one might implement the above ideas.
 
 \begin{subsection}{Absolute amplitude- and time-scales}
@@ -468,6 +468,148 @@ for any $A\in\RR_{\ge 0}$. We can also rescale its rate via
 	e^{\text{log}\ \!A+u}e^{i2\pi v\rho t}
 	$$
 	
+\end{subsection}
+
+\end{section}
+
+\begin{section}{Implementation proposal 2: Lifts of Tate's additive $\zeta$-function}
+
+\begin{subsection}{$\mathfrak{p}$-Adic fractional parts in number fields}
+Before we described $\mathfrak{p}$-adic fractional parts of elements in number fields, it 's worthwhile to spend some time reviewing the theory for elements of $\QQ$.
+
+\begin{ssubsection}
+{\bf Fractional parts in $\pmb{\QQ}$.}
+\normalfont
+Fix a nonzero element $a\in\QQ$. Put this element in reduced form, so that
+	$$
+	a
+	\ \ =\ \ 
+	\pm
+	\frac{M}{N}
+	\ \ \ 
+	\text{for elements}
+	\ \ M,N\in\ZZ_{>0}.
+	$$
+For each prime ideal $\mathfrak{p}=(p)$ in $\ZZ$, there exist units $u_{M,p}$ and $u_{N,p}$ in $\ZZ_p$ so that
+	$$
+	M\ \ =\ \ p^m\cdot u_{M\!,\ \!p}
+	\ \ \ \ \ \ \text{and}\ \ \ \ \ \ \ 
+	N\ \ =\ \ p^n\cdot u_{N\!,\ \!p}.
+	$$f
+Defining $u_{p}:=u_{M\!,\ \!p}/u_{M\!,\ \!p}$ and we have
+	$$
+	a
+	\ \ =\ \ 
+	p^{\text{ord}_{p\!}(a)}\cdot u_{p}.
+	$$
+Here $u_p$ is a unit in $\mathbb{Z}_p$, so we can write it as
+	$$
+	u_p
+	\ \ =\ \ 
+	a_0 +a_1\ \!p + a_2\ \!p^2 + a_3\ \!p^3 + \cdots.
+	$$
+Thus
+	$$
+	\scalebox{.92}{$
+	a
+	\ \ =\ \ 
+	a_0\ p^{\text{ord}_{p\!}(a)} + a_1\ p^{\text{ord}_{p\!}(a)+1}+\cdots+a_{-1-\text{ord}_{p\!}(a)}\ p^{-1}+a_{-\text{ord}_{p\!}(a)}+a_{1-\text{ord}_{p\!}(a)}\ p+a_{2-\text{ord}_{p\!}(a)}\ p^2+\cdots
+	$}
+	$$
+The terms with $p$-adic absolute value $\le1$, i.e., the terms with nonnegative power of $p$ in this decomposition, form the {\em $p$-adic intergral part of $a$}, denoted $\lfloor a\rfloor_p$. The terms with $p$-adic absolute value $\le1$, i.e., the terms with nonnegative power of $p$ in this decomposition, form the {\em $p$-adic fractional part of $a$}:
+	$$
+	\scalebox{.92}{$
+	a
+	\ \ =\ \ 
+	\underset{p\text{-adic fractional part }a-\lfloor a\rfloor_p}{\underbrace{a_0\ p^{\text{ord}_{p\!}(a)} + a_1\ p^{\text{ord}_{p\!}(a)+1}+\cdots+a_{-1-\text{ord}_{p\!}(a)}\ p^{-1}}}+
+	\underset{p\text{-adic integral part }\lfloor a\rfloor_{p}}{\underbrace{a_{-\text{ord}_{p\!}(a)}+a_{1-\text{ord}_{p\!}(a)}\ p+a_{2-\text{ord}_{p\!}(a)}\ p^2+\cdots}}
+	$}
+	$$
+\end{ssubsection}
+
+
+\begin{example}
+{\bf $\pmb{p}$-Adic fractional parts of the element $\pmb{a=\tfrac{1}{6}\in\mathbb{Q}}$.}
+\normalfont
+Le
+\begin{enumerate}
+\item
+	\vskip .2cm
+{\bf Case: $\pmb{p=2}$.}
+We have $6=1\!\cdot\!2+1\!\cdot\!2^2=2\cdot(1+1\cdot2)$. Here
+	$$
+	\begin{array}{cc}
+		&
+		\ \begin{array}{cccccccccccccc}
+		1 &\!\!+\!\!& 1\!\cdot\!2 &\!\!+\!\!& 1\!\cdot\!2^2 &\!\!+\!\!& 1\!\cdot\!2^3 &\!\!+\!\!& 1\!\cdot\!2^4 &\!\!+\!\!& 1\!\cdot\!2^5 &\!\!+\!\!& \cdots
+		\end{array}
+		\\
+		1\ +\ 1\!\cdot\!2
+		& 
+		\begin{array}{|c}
+		\hline
+		\ \begin{array}{cccccccccccccc}
+		1 &\!\!+\!\!& 0\!\cdot\!2 &\!\!+\!\!& 0\!\cdot\!2^2 &\!\!+\!\!& 0\!\cdot\!2^3 &\!\!+\!\!& 0\!\cdot\!2^4 &\!\!+\!\!& 0\!\cdot\!2^5 &\!\!+\!\!& \cdots
+		\end{array}
+		\end{array}
+		\\
+		&
+		\ \begin{array}{cccccccccccccc}
+		1 &\!\!+\!\!& 1\!\cdot\!2 & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
+		\end{array}
+		\\
+		&
+		\ \begin{array}{cccccccccccccc}
+		1\!\cdot\!2 &\!\!+\!\!& 1\!\cdot\!2^2 & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
+		\end{array}
+		\\
+		&
+		\ \begin{array}{cccccccccccccc}
+		1\!\cdot\!2^2 &\!\!+\!\!& 1\!\cdot\!2^3 & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
+		\end{array}
+		\\[-4pt]
+		&
+		\ \begin{array}{cccccccccccccc}
+		\ \ \ \ \ \ \ \ \ \ddots
+		\end{array}
+	\end{array}
+	$$
+In other words, we have
+	$$
+	\frac{1}{1+1\!\cdot\!2}
+	\ \ =\ \ 
+	1+2+2^2+2^3+\cdots.
+	$$
+We can then use this to write $\frac{1}{6}$ in a form that makes the $2$-adic integral and fractional parts apparent:
+	$$
+	\frac{1}{6}
+	\ \ \ =
+	\underset{\text{part }\frac{1}{6}-\lfloor\frac{1}{6}\rfloor}{\underset{\text{fractional}}{\underset{2\text{-adic}}{\underbrace{\ 2^{-1}\ }}}}\!\!\!\!\!+\!\underset{2\text{-adic integral part }\lfloor\frac{1}{6}\rfloor}{\underbrace{\ \ 1+2+2^2+\cdots}\ \ }.
+	$$
+Thus
+	$
+	\text{frac}_{2}\big(\tfrac{1}{6}\big)
+	=
+	\tfrac{1}{2}
+	$.
+	\vskip .2cm
+\item 
+{\bf Case: $\pmb{p=3}$.}
+We have $6=2\!\cdot\!3$
+	\vskip .2cm
+\item 
+{\bf Case: $\pmb{p=5}$.}
+We have $6=1+1\!\cdot\!5$
+	\vskip .2cm
+\item 
+{\bf Case: $\pmb{p\ge7}$.}
+We have $6=6\!\cdot\!p^0$
+A
+	\vskip .2cm
+\end{enumerate}
+
+\end{example}
+
 \end{subsection}
 
 \end{section}
